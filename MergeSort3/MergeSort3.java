@@ -1,12 +1,24 @@
-package MergeSort3;
-
 class MergeSort3 {
+    /**
+     * Merge 3 arrays into one large, sorted array.
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
     private static int[] merge(int[] a, int[] b, int[] c) {
         int i = 0, j = 0, k = 0;
         int n = a.length + b.length + c.length;
         int[] result = new int[n];
-        while (i < a.length || j < b.length || k < c.length) {
-            // set the next element of result to the minimum from the available lists
+        while (i+j+k < n) {
+            int min = Integer.MAX_VALUE;
+            if (i < a.length && a[i] < min) min = a[i];
+            if (j < b.length && b[j] < min) min = b[j];
+            if (k < c.length && c[k] < min) min = c[k];
+            result[i+j+k] = min;
+            if (i < a.length && a[i] == min) i++;
+            else if (j < b.length && b[j] == min) j++;
+            else if (k < c.length && c[k] == min) k++;
         }
         return result;
     }
@@ -41,16 +53,24 @@ class MergeSort3 {
         result = merge(a, b, c);
         return result;
     }
+    /**
+     * Sort the array using Three-Way Merge Sort
+     * @param array
+     * @return
+     */
     public static int[] sort(int[] array) {
         return sort(array, 0, array.length);
     }
 
+    /**
+     * Test MS3
+     * @param args
+     */
     public static void main(String[] args) {
         int[] array = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3};
         int[] sorted = sort(array);
         for (int i = 0; i < sorted.length; i++) {
             System.out.print(sorted[i] + " ");
         }
-        System.out.println();
     }
 }
