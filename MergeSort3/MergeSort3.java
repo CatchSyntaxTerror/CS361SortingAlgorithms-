@@ -1,4 +1,9 @@
-class MergeSort3 {
+/**
+ * Class implementing Three-Way Merge Sort
+ * 
+ * TODO: Possibly implement some comparator to allow sorting of abitrary values (instead of just ints)
+ */
+final class MergeSort3 {
     /**
      * Merge 3 arrays into one large, sorted array.
      * @param a
@@ -22,8 +27,9 @@ class MergeSort3 {
         }
         return result;
     }
+
     /**
-     * Sorts the portion of the array from [low, high)
+     * Sorts the portion of the array from [low, high). Using indices instead of subarrays for memory efficiency.
      * @param array
      * @param low
      * @param high
@@ -54,7 +60,7 @@ class MergeSort3 {
         return result;
     }
     /**
-     * Sort the array using Three-Way Merge Sort
+     * Sort the array using Three-Way Merge Sort.
      * @param array
      * @return
      */
