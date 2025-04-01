@@ -1,11 +1,11 @@
-package src;
+package src.Algorithms;
 
 /**
  * Class implementing Three-Way Merge Sort
  * 
  * TODO: Possibly implement some comparator to allow sorting of abitrary values (instead of just ints)
  */
-public final class MergeSort3 {
+public final class MergeSort3 implements SortingAlgorithm {
     /**
      * Merge 3 arrays into one large, sorted array.
      * @param a
