@@ -5,7 +5,7 @@ package src;
  * 
  * TODO: Possibly implement some comparator to allow sorting of abitrary values (instead of just ints)
  */
-public final class MergeSort3 implements SortInterface {
+public final class MergeSort3 {
     /**
      * Merge 3 arrays into one large, sorted array.
      * @param a
