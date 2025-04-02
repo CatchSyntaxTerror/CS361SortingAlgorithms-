@@ -2,7 +2,7 @@ package src;
 
 import java.util.function.Function;
 
-import src.Algorithms.MergeSort3;
+import src.algorithms.*;
 
 public class Benchmarker {
     private static void benchmark(Function<int[], int[]> sortingAlgorithm) {
@@ -15,6 +15,9 @@ public class Benchmarker {
         System.out.println();
     }
     public static void main(String[] args) {
+        System.out.println("3 Merge Sort:");
         benchmark(MergeSort3::sort);
+        System.out.println("Random Quick Sort:");
+        benchmark(RandomQuickSort::sort);
     }
 }

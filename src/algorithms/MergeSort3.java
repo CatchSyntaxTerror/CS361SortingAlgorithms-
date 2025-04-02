@@ -1,4 +1,4 @@
-package src.Algorithms;
+package src.algorithms;
 
 /**
  * Class implementing Three-Way Merge Sort
