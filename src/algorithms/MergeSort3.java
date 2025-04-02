@@ -1,5 +1,7 @@
 package src.algorithms;
 
+import src.SortingAlgorithm;
+
 /**
  * Class implementing Three-Way Merge Sort
  * 

@@ -2,6 +2,8 @@ package src.algorithms;
 
 import java.util.Random;
 
+import src.SortingAlgorithm;
+
 /**
  * The RandomQuickSort class implements the randomized quick sort algorithm. In
  * each iteration, the pivot must be randomly chosen using a random number
