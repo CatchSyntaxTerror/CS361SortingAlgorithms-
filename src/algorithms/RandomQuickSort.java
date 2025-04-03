@@ -1,6 +1,8 @@
-package RandomQuicksort;
+package src.algorithms;
 
 import java.util.Random;
+
+import src.SortingAlgorithm;
 
 /**
  * The RandomQuickSort class implements the randomized quick sort algorithm. In
@@ -8,9 +10,9 @@ import java.util.Random;
  * generator.
  * Student: Nickolas Chacon
  */
-public class RandomQuickSort {
+public class RandomQuickSort implements SortingAlgorithm {
 
-    Random rand = new Random();
+    private static Random rand = new Random();
 
     /**
      * Chooses a random pivot and calls normal partition.
@@ -19,7 +21,7 @@ public class RandomQuickSort {
      * @param r Ending index
      * @return The pivots final location
      */
-    private int randomizedPartition(int a[], int p, int r) {
+    private static int randomizedPartition(int a[], int p, int r) {
         //nextInt(r - p + 1): 0-(r-p)
         //p + rand.nextInt(r - p + 1): p-r
         int randomIndex = p + rand.nextInt(r - p + 1);
@@ -43,7 +45,7 @@ public class RandomQuickSort {
      * @param r Ending index
      * @return The pivots final location
      */
-    private int partition(int a[], int p, int r) {
+    private static int partition(int a[], int p, int r) {
         //x is the pivot
         int x = a[r];
         int i = (p - 1);
@@ -73,7 +75,7 @@ public class RandomQuickSort {
      * @param p Starting index
      * @param r Ending index
      */
-    private void randQuickSort(int a[], int p, int r) {
+    private static void randQuickSort(int a[], int p, int r) {
         if (p < r) {
             int q = randomizedPartition(a, p, r);
 
@@ -83,6 +85,11 @@ public class RandomQuickSort {
         }
     }
 
+    public static int[] sort(int[] arr) {
+        randQuickSort(arr, 0, arr.length-1);
+        return arr;
+    }
+
     /**
      * Testing
      * @param args
@@ -90,8 +97,7 @@ public class RandomQuickSort {
     public static void main(String args[]) {
         int a[] = {10, 7, 8, 9, 1, 5};
         int len = a.length;
-        RandomQuickSort randomQuickSort = new RandomQuickSort();
-        randomQuickSort.randQuickSort(a, 0, len - 1);
+        sort(a);
 
         for (int i = 0; i < len; ++i)
             System.out.print(a[i] + " ");
