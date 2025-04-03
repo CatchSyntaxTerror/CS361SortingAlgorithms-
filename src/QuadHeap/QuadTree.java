@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Author: Youssef Amin
+ * Quad-Heap implementation
+ */
 public class QuadTree {
     public class Node {
         private int value;
