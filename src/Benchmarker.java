@@ -14,6 +14,15 @@ public class Benchmarker {
         }
         System.out.println();
     }
+
+    private static void writeTestInputs() {
+        /*
+         * 1. Make a directory for testing inputs
+         * 2. For size 20->30, generate a file for ints and a file for doubles
+         */
+        
+    }
+
     public static void main(String[] args) {
         System.out.println("3 Merge Sort:");
         benchmark(MergeSort3::sort);
