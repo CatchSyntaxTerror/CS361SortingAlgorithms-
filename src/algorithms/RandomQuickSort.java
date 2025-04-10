@@ -10,6 +10,7 @@ import src.SortingAlgorithm;
  * generator.
  * Student: Nickolas Chacon
  */
+//TODO: copy whole class and make double. in main run int or double w/ given data set(getfirst is int?)
 public class RandomQuickSort implements SortingAlgorithm {
 
     private static Random rand = new Random();
