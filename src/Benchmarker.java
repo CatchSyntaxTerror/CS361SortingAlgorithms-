@@ -16,12 +16,7 @@ public class Benchmarker {
     }
 
     private static void writeTestInputs() {
-        /*
-         * 1. Make a directory for testing inputs
-         * 2. For size 20->30, generate a file for ints and a file for doubles
-         */
-        //Leave in all generation code into files.
-
+        //Run GenerateData with your own directory in the OUTPUT_DIR final variable.
     }
 
     public static void main(String[] args) {
