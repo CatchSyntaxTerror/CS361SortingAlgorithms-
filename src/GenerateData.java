@@ -11,6 +11,7 @@ import java.util.Random;
  * As of now, the data will be made into text files varying from 4 megabytes to 4 gigabytes for the integer files.
  * The double files are doubled so they range from 8 megabytes to 8 gigabytes. Make sure you have storage.
  * Also, they will not be stored as arrays. They will just be random numbers with a new line between each one.
+ * Author: Nickolas Chacon
  */
 public class GenerateData {
 
