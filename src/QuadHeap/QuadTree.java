@@ -5,6 +5,8 @@ package src.QuadHeap;
  * Quad-Heap implementation
  */
 public class QuadTree {
+
+    //Todo: add min and max heapify...
     private static Node root;
 
     /**
