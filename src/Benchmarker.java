@@ -14,6 +14,11 @@ public class Benchmarker {
         }
         System.out.println();
     }
+
+    private static void writeTestInputs() {
+        //Run GenerateData with your own directory in the OUTPUT_DIR final variable.
+    }
+
     public static void main(String[] args) {
         System.out.println("3 Merge Sort:");
         benchmark(MergeSort3::sort);

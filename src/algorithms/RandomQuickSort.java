@@ -8,8 +8,9 @@ import src.SortingAlgorithm;
  * The RandomQuickSort class implements the randomized quick sort algorithm. In
  * each iteration, the pivot must be randomly chosen using a random number
  * generator.
- * Student: Nickolas Chacon
+ * Author: Nickolas Chacon
  */
+//TODO: copy whole class and make double. in main run int or double w/ given data set(getfirst is int?)
 public class RandomQuickSort implements SortingAlgorithm {
 
     private static Random rand = new Random();

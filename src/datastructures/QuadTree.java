@@ -1,4 +1,4 @@
-package src.QuadHeap;
+package src.datastructures;
 
 /**
  * Author: Youssef Amin
