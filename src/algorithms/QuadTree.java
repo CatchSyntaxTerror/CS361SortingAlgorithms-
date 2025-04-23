@@ -1,13 +1,12 @@
-package src.datastructures;
+package algorithms;
 
 /**
  * Author: Youssef Amin
  * Quad-Heap implementation
  */
 public class QuadTree {
-
-    //Todo: add min and max heapify
-    private static Node root;
+    public static Node root;
+    public int[] treeArray;
 
     /**
      * constructor for a whole array of data
@@ -15,6 +14,8 @@ public class QuadTree {
      */
     public QuadTree(int[] arr) {
         fill(arr);
+        treeArray = new int[getSize(root)];
+        //Todo: constructor not right
     }
 
     /**
@@ -76,6 +77,7 @@ public class QuadTree {
                 + getSize(node.fourth);
     }
 
+
     /**
      * returns an array representation of the tree.
      * remember, in this case:
@@ -83,22 +85,40 @@ public class QuadTree {
      *
      * @return the array of values
      */
-    public int[] toArray() {
+    public int[] getTreeArray() {
         if (root == null) {
             return new int[0];
         }
-        //Todo: figure out logic here
+        //Todo: heapify and just pop off the first element each time
         return null;
     }
 
-    /**
-     * balancing the tree will make it sooooo much better
-     */
-    private void balance() {
-        //Todo: write rotation methods and balance logic, return true if
-        // successfully balanced;
+
+    public int DFS(Node node, int value){
+        if(node != null && value == node.value) return value;
+        DFS(node.first, value);
+        DFS(node.second, value);
+        DFS(node.third, value);
+        DFS(node.fourth, value);
+        return Integer.MAX_VALUE;
     }
 
+    public void minHeapSort(Node node){
+        Node[] children = new Node[]{node.first, node.second, node.third, node.fourth};
+        for (int i = 0; i < children.length; i++) {
+            if(children[i] == null) return;
+            if(children[i].value < node.value){
+                swapValues(children[i], node);
+            }
+            minHeapSort(children[i]);
+        }
+    }
+
+    private void swapValues(Node fir, Node sec){
+        int temp = fir.value;
+        fir.value = sec.value;
+        sec.value = temp;
+    }
 
     /**
      * this main method is just for me to test the tree
