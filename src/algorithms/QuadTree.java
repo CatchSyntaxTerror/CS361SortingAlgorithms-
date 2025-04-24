@@ -4,7 +4,7 @@ package algorithms;
  * Author: Youssef Amin
  * Quad-Heap implementation
  */
-public class QuadTree {
+public class QuadTree implements SortingAlgorithm {
     public static Node root;
     public int[] treeArray;
 
@@ -118,6 +118,19 @@ public class QuadTree {
         int temp = fir.value;
         fir.value = sec.value;
         sec.value = temp;
+    }
+
+    public static int[] sort(int[] array) {
+        QuadTree tree = new QuadTree(array);
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(tree.getTreeArray()[i] + ", ");
+        }
+        System.out.println();
+        tree.minHeapSort(tree.root);
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(tree.getTreeArray()[i] + ", ");
+        }
+        return tree.getTreeArray();
     }
 
     /**

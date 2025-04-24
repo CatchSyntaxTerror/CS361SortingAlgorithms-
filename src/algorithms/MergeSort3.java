@@ -1,6 +1,4 @@
-package src.algorithms;
-
-import src.SortingAlgorithm;
+package algorithms;
 
 /**
  * Class implementing Three-Way Merge Sort

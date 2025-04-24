@@ -1,8 +1,6 @@
-package src.algorithms;
+package algorithms;
 
 import java.util.Random;
-
-import src.SortingAlgorithm;
 
 /**
  * The RandomQuickSort class implements the randomized quick sort algorithm. In
