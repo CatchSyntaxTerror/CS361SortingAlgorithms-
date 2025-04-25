@@ -16,17 +16,17 @@ import java.util.Random;
 public class GenerateData {
 
     private static final int START_EXP = 20;
-    private static final int END_EXP = 30;
+    private static final int END_EXP = 21;
     private static final Random rand = new Random();
 
     //TODO: Change this to the directory where you want the files to be stored at(between the " ")
-    private static final String OUTPUT_DIR = "./";
+    private static final String OUTPUT_DIR = "data/";
 
     public static void main(String[] args) {
         //integers
         for (int exp = START_EXP; exp <= END_EXP; exp++) {
             long size = 1L << exp;//Bit shifting 2^exp val (long stores up to 2^63)
-            String filename = OUTPUT_DIR + "ints_2^" + exp + ".txt";
+            String filename = OUTPUT_DIR + "ints_" + exp + ".txt";
 
             System.out.println("Generating file: " + filename + " with " + size + " integers");
 
@@ -44,7 +44,7 @@ public class GenerateData {
         //doubles
         for (int exp = START_EXP; exp <= END_EXP; exp++) {
             long size = 1L << exp;
-            String filename = OUTPUT_DIR + "doubles_2^" + exp + ".txt";
+            String filename = OUTPUT_DIR + "doubles_" + exp + ".txt";
 
             System.out.println("Generating file: " + filename + " with " + size + " doubles");
 

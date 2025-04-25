@@ -1,7 +1,7 @@
 package algorithms;
 
-public class TimSort {
-    public static int[] timSort(int[] arr) {
+public class TimSort implements SortingAlgorithm {
+    public static int[] sort(int[] arr) {
         // n = the size of the array
         // size = the size of each run (or chunk) (32)
         int n = arr.length;

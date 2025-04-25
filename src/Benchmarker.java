@@ -1,28 +1,74 @@
-package src;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.function.Function;
-
-import src.algorithms.*;
+import java.util.stream.Stream;
+import algorithms.*;
 
 public class Benchmarker {
-    private static void benchmark(Function<int[], int[]> sortingAlgorithm) {
-        // TODO: benchmark the algorithm according to project instructions
-        int[] array = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3};
-        int[] sorted = sortingAlgorithm.apply(array);
-        for (int i = 0; i < sorted.length; i++) {
-            System.out.print(sorted[i] + " ");
+    /**
+     * How many times to run the algorithm for each dataset (averages the run
+     * time of these all). This gets really slow for big sets.
+     */
+    private static final int BENCHMARKS = 50;
+
+    private static int[] loadIntData(String fileName) {
+        String filePath = "data/" + fileName;
+        try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
+            return lines.mapToInt(Integer::parseInt).toArray();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println();
+        return new int[0];
+    }
+    private static double[] loadDoubleData(String fileName) {
+        String filePath = "data/" + fileName;
+        try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
+            return lines.mapToDouble(Double::parseDouble).toArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new double[0];
     }
 
-    private static void writeTestInputs() {
-        //Run GenerateData with your own directory in the OUTPUT_DIR final variable.
+    /**
+     * Benchmark an algorithm, calculating average ms to sort
+     * @param sortingAlgorithm Algorithm to sort with
+     * @param array Template array used for each sort
+     */
+    private static void benchmark(Function<int[], int[]> sortingAlgorithm, int[] array) {
+        // TODO: benchmark the algorithm according to project instructions
+        int[] times = new int[BENCHMARKS];
+        for (int i = 0; i < BENCHMARKS; i++ ) {
+            long startTime = System.currentTimeMillis();
+            // can we ensure this array clone is discarded every time? does
+            // it matter for benchmarking?
+            int[] sorted = sortingAlgorithm.apply(array.clone());
+            long endTime = System.currentTimeMillis();
+            times[i] = (int) (endTime - startTime);
+            System.gc();    // attempt to rid the system of the array clone
+        }
+        int average = Arrays.stream(times).sum() / times.length;
+        System.out.printf("Average sort time: %dms\n", average);
     }
 
     public static void main(String[] args) {
-        System.out.println("3 Merge Sort:");
-        benchmark(MergeSort3::sort);
-        System.out.println("Random Quick Sort:");
-        benchmark(RandomQuickSort::sort);
+        for (int exp = 20; exp <= 30; exp++) {
+            System.gc();
+            // i wonder if memory will be an issue for the larger files
+            String fileName = "ints_" + exp + ".txt";
+            System.out.println("Benchmarking: " + fileName);
+            int[] intData = loadIntData(fileName);
+            if (intData.length == 0) break;
+            System.out.println("3 Merge Sort:");
+            benchmark(MergeSort3::sort, intData);
+            System.out.println("Random Quick Sort:");
+            benchmark(RandomQuickSort::sort, intData);
+//            System.out.println("QuadTree Sort:");
+//            benchmark(QuadTree::sort, intData);
+            System.out.println("Tim Sort:");
+            benchmark(TimSort::sort, intData);
+            System.out.println();
+        }
     }
 }

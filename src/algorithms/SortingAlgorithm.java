@@ -1,4 +1,4 @@
-package src;
+package algorithms;
 
 public interface SortingAlgorithm {
     /**
