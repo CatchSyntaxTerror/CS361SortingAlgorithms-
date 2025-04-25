@@ -22,10 +22,10 @@ public class QuadTree {
      * @param values a given array
      */
     public void fill(int[] values, Node node, int i) {
-        node.value = values[i]; // set this node's value
+        node.value = values[i];
 
         if (4 * i + 1 < values.length) {
-            Node firstChild = new Node(0); // placeholder value
+            Node firstChild = new Node(0);
             node.setFirst(firstChild);
             fill(values, firstChild, 4 * i + 1);
         }
