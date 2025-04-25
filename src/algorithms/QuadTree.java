@@ -1,8 +1,5 @@
 package algorithms;
 
-import javax.swing.*;
-import java.util.Arrays;
-
 /**
  * Author: Youssef Amin
  * Quad-Heap implementation
