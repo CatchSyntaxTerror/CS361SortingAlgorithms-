@@ -20,7 +20,7 @@ public class GenerateData {
     private static final Random rand = new Random();
 
     //TODO: Change this to the directory where you want the files to be stored at(between the " ")
-    private static final String OUTPUT_DIR = "data/";
+    private static final String OUTPUT_DIR = "docs\\data";
 
     public static void main(String[] args) {
         //integers

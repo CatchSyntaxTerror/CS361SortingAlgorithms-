@@ -13,7 +13,7 @@ public class Benchmarker {
     private static final int BENCHMARKS = 50;
 
     private static int[] loadIntData(String fileName) {
-        String filePath = "data/" + fileName;
+        String filePath = "docs\\data" + fileName;
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             return lines.mapToInt(Integer::parseInt).toArray();
         } catch (Exception e) {
@@ -22,7 +22,7 @@ public class Benchmarker {
         return new int[0];
     }
     private static double[] loadDoubleData(String fileName) {
-        String filePath = "data/" + fileName;
+        String filePath = "docs\\data" + fileName;
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             return lines.mapToDouble(Double::parseDouble).toArray();
         } catch (Exception e) {
