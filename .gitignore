@@ -26,8 +26,12 @@ bin/
 .vscode/
 
 ### Mac OS ###
+<<<<<<< HEAD
 .DS_Store
 
 data
 .idea/
 *.iml
+=======
+.DS_Store
+>>>>>>> 6dc755378e80148dfe1af08110e69ed86e124e64
