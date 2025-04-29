@@ -106,7 +106,7 @@ public class QuadHeap {
         }
     }
 
-    /**
+    /****
      * sorts the heap in ascending order
      */
     public void heapSort() {
