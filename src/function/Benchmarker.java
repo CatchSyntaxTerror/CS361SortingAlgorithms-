@@ -103,8 +103,8 @@ public class Benchmarker {
             for (int j = 0; j<4;j++){
                 System.out.printf(",%d,%d", intTimes[j], doubleTimes[j]);
             }
+            System.out.println();
         }
-        System.out.println();
     }
     public static void benchmark(int startExp, int endExp, int trials, boolean verbose) {
         VERBOSE = verbose;
