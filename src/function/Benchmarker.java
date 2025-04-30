@@ -18,10 +18,21 @@ public class Benchmarker {
     private static Number[] loadData(String fileName) {
         String filePath = DATA_PATH + fileName;
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
+            int i = 0;
             if (fileName.contains("int")) {
-                return (Number[]) lines.map(Integer::parseInt).toArray();
+                int[] ints = lines.mapToInt(Integer::parseInt).toArray();
+                Number[] numbers = new Number[ints.length];
+                for (int x : ints) {
+                    numbers[i++] = x;
+                }
+                return numbers;
             } else {
-                return (Number[]) lines.map(Double::parseDouble).toArray();
+                double[] doubles = lines.mapToDouble(Double::parseDouble).toArray();
+                Number[] numbers = new Number[doubles.length];
+                for (double x : doubles) {
+                    numbers[i++] = x;
+                }
+                return numbers;
             }
         } catch (Exception e) {
             e.printStackTrace();
