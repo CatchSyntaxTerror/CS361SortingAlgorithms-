@@ -1,4 +1,4 @@
-package src;
+package function;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -14,18 +14,13 @@ import java.util.Random;
  * Author: Nickolas Chacon
  */
 public class GenerateData {
-
-    private static final int START_EXP = 20;
-    private static final int END_EXP = 30;
     private static final Random rand = new Random();
 
     //TODO: Change this to the directory where you want the files to be stored at(between the " ")
     private static final String OUTPUT_DIR = "data/";
 
-    public static void main(String[] args) {
+    public static void generate(int startExp, int endExp) {
         //integers
-        int startExp = args.length > 0 ? Integer.parseInt(args[0]) : START_EXP;
-        int endExp = args.length > 1 ? Integer.parseInt(args[1]) : END_EXP;
         for (int exp = startExp; exp <= endExp; exp++) {
             long size = 1L << exp;//Bit shifting 2^exp val (long stores up to 2^63)
             String filename = OUTPUT_DIR + "ints_" + exp + ".txt";

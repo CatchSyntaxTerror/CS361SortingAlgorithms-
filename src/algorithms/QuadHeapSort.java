@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Realistically after making the QuadHeap object,
  * you can just call heapName.heapsort()
  */
-public class QuadHeapSort implements SortingAlgorithm{
+public class QuadHeapSort implements SortingAlgorithm {
     public static void main(String[] args) {
         int[] test = new int[]{2,3,3,4,5,5,6,7,78,8,89,9,9,3,2,2,2,34,4,5,6,7
                 ,7,8,98,9,9,7,6,5,34,32,2,3,4,5,65756,7,567,567,567,5, 345,
@@ -20,8 +20,9 @@ public class QuadHeapSort implements SortingAlgorithm{
 
     }
 
-    public static void sort(int[] array) {
+    public static int[] sort(int[] array) {
         QuadHeap heap = new QuadHeap(array);
         heap.heapSort();
-    };
+        return array;
+    }
 }

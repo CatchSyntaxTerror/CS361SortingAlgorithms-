@@ -1,3 +1,5 @@
+package function;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -68,11 +70,17 @@ public class Benchmarker {
         System.out.println();
     }
 
-    public static void main(String[] args) {
-        for (int exp = 20; exp <= 30; exp++) {
+    public static void benchmark(int startExp, int endExp) {
+        for (int exp = startExp; exp <= endExp; exp++) {
             System.gc();
             // i wonder if memory will be an issue for the larger files
             String fileName = "ints_" + exp + ".txt";
+            benchmarkSet(fileName);
+        }
+        for (int exp = startExp; exp <= endExp; exp++) {
+            System.gc();
+            // i wonder if memory will be an issue for the larger files
+            String fileName = "doubles_" + exp + ".txt";
             benchmarkSet(fileName);
         }
     }
