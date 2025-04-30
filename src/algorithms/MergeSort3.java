@@ -13,19 +13,19 @@ public final class MergeSort3 implements SortingAlgorithm {
      * @param c
      * @return
      */
-    private static int[] merge(int[] a, int[] b, int[] c) {
+    private static Number[] merge(Number[] a, Number[] b, Number[] c) {
         int i = 0, j = 0, k = 0;
         int n = a.length + b.length + c.length;
-        int[] result = new int[n];
+        Number[] result = new Number[n];
         while (i+j+k < n) {
-            int min = Integer.MAX_VALUE;
-            if (i < a.length && a[i] < min) min = a[i];
-            if (j < b.length && b[j] < min) min = b[j];
-            if (k < c.length && c[k] < min) min = c[k];
+            Number min = Double.MAX_VALUE;
+            if (i < a.length && a[i].doubleValue() < min.doubleValue()) min = a[i];
+            if (j < b.length && b[j].doubleValue() < min.doubleValue()) min = b[j];
+            if (k < c.length && c[k].doubleValue() < min.doubleValue()) min = c[k];
             result[i+j+k] = min;
-            if (i < a.length && a[i] == min) i++;
-            else if (j < b.length && b[j] == min) j++;
-            else if (k < c.length && c[k] == min) k++;
+            if (i < a.length && a[i].equals(min)) i++;
+            else if (j < b.length && b[j].equals(min)) j++;
+            else if (k < c.length && c[k].equals(min)) k++;
         }
         return result;
     }
@@ -36,28 +36,28 @@ public final class MergeSort3 implements SortingAlgorithm {
      * @param low
      * @param high
      */
-    private static int[] sort(int[] array, int low, int high) {
+    private static Number[] sort(Number[] array, int low, int high) {
         int size = (high-low);
         int portion = size/3;
         if (portion == 0) {
             // array is too small to be 3-sorted
-            if (size == 0) return new int[0]; // this shouldn't happen
-            if (size == 1) return new int[]{array[low]};
+            if (size == 0) return new Number[0]; // this shouldn't happen
+            if (size == 1) return new Number[]{array[low]};
             if (size == 2) {
-                if (array[low] > array[high-1]) {
-                    return new int[]{array[high-1], array[low]};
+                if (array[low].doubleValue() > array[high-1].doubleValue()) {
+                    return new Number[]{array[high-1], array[low]};
                 } else {
-                    return new int[]{array[low], array[high-1]};
+                    return new Number[]{array[low], array[high-1]};
                 }
             }
         }
         // sort & merge:
-        int[] result = new int[size];
+        Number[] result = new Number[size];
         int mid1 = low + portion;
         int mid2 = mid1 + portion;
-        int[] a = sort(array, low, mid1);
-        int[] b = sort(array, mid1, mid2);
-        int[] c = sort(array, mid2, high);
+        Number[] a = sort(array, low, mid1);
+        Number[] b = sort(array, mid1, mid2);
+        Number[] c = sort(array, mid2, high);
         result = merge(a, b, c);
         return result;
     }
@@ -66,7 +66,7 @@ public final class MergeSort3 implements SortingAlgorithm {
      * @param array
      * @return
      */
-    public static int[] sort(int[] array) {
+    public static Number[] sort(Number[] array) {
         return sort(array, 0, array.length);
     }
 
@@ -75,8 +75,8 @@ public final class MergeSort3 implements SortingAlgorithm {
      * @param args
      */
     public static void main(String[] args) {
-        int[] array = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3};
-        int[] sorted = sort(array);
+        Number[] array = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3};
+        Number[] sorted = sort(array);
         for (int i = 0; i < sorted.length; i++) {
             System.out.print(sorted[i] + " ");
         }

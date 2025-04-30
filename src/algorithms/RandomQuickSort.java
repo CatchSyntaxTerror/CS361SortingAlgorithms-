@@ -20,14 +20,14 @@ public class RandomQuickSort implements SortingAlgorithm {
      * @param r Ending index
      * @return The pivots final location
      */
-    private static int randomizedPartition(int a[], int p, int r) {
+    private static int randomizedPartition(Number[] a, int p, int r) {
         //nextInt(r - p + 1): 0-(r-p)
         //p + rand.nextInt(r - p + 1): p-r
         int randomIndex = p + rand.nextInt(r - p + 1);
 
         //swapping a[randomIndex] with a[r] to use it as pivot in normal
         //partition(end expected)
-        int temp = a[randomIndex];
+        Number temp = a[randomIndex];
         a[randomIndex] = a[r];
         a[r] = temp;
 
@@ -44,23 +44,23 @@ public class RandomQuickSort implements SortingAlgorithm {
      * @param r Ending index
      * @return The pivots final location
      */
-    private static int partition(int a[], int p, int r) {
+    private static int partition(Number[] a, int p, int r) {
         //x is the pivot
-        int x = a[r];
+        Number x = a[r];
         int i = (p - 1);
         for (int j = p; j < r; j++) {
             //If the current element is smaller or equal to pivot, it
             // increments the smallest element space and swaps.
-            if (a[j] <= x) {
+            if (a[j].doubleValue() <= x.doubleValue()) {
                 i++;
-                int temp = a[i];
+                Number temp = a[i];
                 a[i] = a[j];
                 a[j] = temp;
             }
         }
 
         //put pivot in correct pos
-        int temp = a[i + 1];
+        Number temp = a[i + 1];
         a[i + 1] = a[r];
         a[r] = temp;
         //return pivot
@@ -74,7 +74,7 @@ public class RandomQuickSort implements SortingAlgorithm {
      * @param p Starting index
      * @param r Ending index
      */
-    private static void randQuickSort(int a[], int p, int r) {
+    private static void randQuickSort(Number[] a, int p, int r) {
         if (p < r) {
             int q = randomizedPartition(a, p, r);
 
@@ -84,7 +84,7 @@ public class RandomQuickSort implements SortingAlgorithm {
         }
     }
 
-    public static int[] sort(int[] arr) {
+    public static Number[] sort(Number[] arr) {
         randQuickSort(arr, 0, arr.length-1);
         return arr;
     }
@@ -94,7 +94,7 @@ public class RandomQuickSort implements SortingAlgorithm {
      * @param args
      */
     public static void main(String args[]) {
-        int a[] = {10, 7, 8, 9, 1, 5};
+        Number[] a = {10, 7, 8, 9, 1, 5};
         int len = a.length;
         sort(a);
 

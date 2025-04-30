@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class QuadHeapSort implements SortingAlgorithm {
     public static void main(String[] args) {
-        int[] test = new int[]{2,3,3,4,5,5,6,7,78,8,89,9,9,3,2,2,2,34,4,5,6,7
+        Number[] test = new Number[]{2,3,3,4,5,5,6,7,78,8,89,9,9,3,2,2,2,34,4,5,6,7
                 ,7,8,98,9,9,7,6,5,34,32,2,3,4,5,65756,7,567,567,567,5, 345,
                 34,34,5345,346,45,645,4,34,5345,645,645,645,4,3,3,34,4};
         QuadHeap maxHeap = new QuadHeap(test);
@@ -20,7 +20,7 @@ public class QuadHeapSort implements SortingAlgorithm {
 
     }
 
-    public static int[] sort(int[] array) {
+    public static Number[] sort(Number[] array) {
         QuadHeap heap = new QuadHeap(array);
         heap.heapSort();
         return array;

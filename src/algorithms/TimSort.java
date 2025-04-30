@@ -1,7 +1,7 @@
 package algorithms;
 
 public class TimSort implements SortingAlgorithm {
-    public static int[] sort(int[] arr) {
+    public static Number[] sort(Number[] arr) {
         // n = the size of the array
         // size = the size of each run (or chunk) (32)
         int n = arr.length;
@@ -41,7 +41,7 @@ public class TimSort implements SortingAlgorithm {
         return arr;
     }
 
-    public static int[] insertionSort(int[] arr, int left, int right) {
+    public static Number[] insertionSort(Number[] arr, int left, int right) {
         // Start i one past left (as the first number alone is automatically sorted)
         int i = left + 1;
         // Run through every number until the right side
@@ -49,9 +49,9 @@ public class TimSort implements SortingAlgorithm {
             // Set j behind i
             // Set temp to the number inserted
             int j = i - 1;
-            int temp = arr[i];
+            Number temp = arr[i];
             // Run back until the beginning of the array or until smaller number found
-            while (j >= left && temp < arr[j]) {
+            while (j >= left && temp.doubleValue() < arr[j].doubleValue()) {
                 // Push arr[j] forward
                 arr[j + 1] = arr[j];
                 j--;
@@ -64,12 +64,12 @@ public class TimSort implements SortingAlgorithm {
         return arr;
     }
 
-    public static int[] mergeSort(int[] arr, int left, int mid, int right) {
+    public static Number[] mergeSort(Number[] arr, int left, int mid, int right) {
         // Split two runs into two arrays
         int len1 = mid - left + 1;
         int len2 = right - mid;
-        int[] l = new int[len1];
-        int[] r = new int[len2];
+        Number[] l = new Number[len1];
+        Number[] r = new Number[len2];
         for (int i = 0; i < len1; i++) {
             l[i] = arr[left + i];
         }
@@ -83,7 +83,7 @@ public class TimSort implements SortingAlgorithm {
         int k = left;
         while (i < len1 && j < len2) {
             // Check lower number and add that to arr, then increment corresponding num
-            if (l[i] <= r[j]) {
+            if (l[i].doubleValue() <= r[j].doubleValue()) {
                 arr[k] = l[i];
                 i++;
             } else {

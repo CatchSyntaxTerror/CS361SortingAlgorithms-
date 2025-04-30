@@ -15,23 +15,18 @@ public class Benchmarker {
     private static final int BENCHMARKS = 50;
     private static final String DATA_PATH = "data/";
 
-    private static int[] loadIntData(String fileName) {
+    private static Number[] loadData(String fileName) {
         String filePath = DATA_PATH + fileName;
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
-            return lines.mapToInt(Integer::parseInt).toArray();
+            if (fileName.contains("int")) {
+                return (Number[]) lines.map(Integer::parseInt).toArray();
+            } else {
+                return (Number[]) lines.map(Double::parseDouble).toArray();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new int[0];
-    }
-    private static double[] loadDoubleData(String fileName) {
-        String filePath = DATA_PATH + fileName;
-        try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
-            return lines.mapToDouble(Double::parseDouble).toArray();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new double[0];
+        return new Number[0];
     }
 
     /**
@@ -39,15 +34,15 @@ public class Benchmarker {
      * @param sortingAlgorithm Algorithm to sort with
      * @param array Template array used for each sort
      */
-    private static void benchmark(Function<int[], int[]> sortingAlgorithm,
-                                  int[] array, int trials) {
+    private static void benchmark(Function<Number[], Number[]> sortingAlgorithm,
+                                  Number[] array, int trials) {
         // TODO: benchmark the algorithm according to project instructions
         int[] times = new int[trials];
         for (int i = 0; i < trials; i++ ) {
             long startTime = System.currentTimeMillis();
             // can we ensure this array clone is discarded every time? does
             // it matter for benchmarking?
-            int[] sorted = sortingAlgorithm.apply(array.clone());
+            Number[] sorted = sortingAlgorithm.apply(array.clone());
             long endTime = System.currentTimeMillis();
             times[i] = (int) (endTime - startTime);
             System.gc();    // attempt to rid the system of the array clone
@@ -58,16 +53,16 @@ public class Benchmarker {
 
     private static void benchmarkSet(String fileName, int trials) {
         System.out.println("Benchmarking: " + fileName);
-        int[] intData = loadIntData(fileName);
-        if (intData.length == 0) return;
+        Number[] data = loadData(fileName);
+        if (data.length == 0) return;
         System.out.println("3 Merge Sort:");
-        benchmark(MergeSort3::sort, intData, trials);
+        benchmark(MergeSort3::sort, data, trials);
         System.out.println("Random Quick Sort:");
-        benchmark(RandomQuickSort::sort, intData, trials);
+        benchmark(RandomQuickSort::sort, data, trials);
         System.out.println("QuadTree Sort:");
-        benchmark(QuadHeapSort::sort, intData, trials);
+        benchmark(QuadHeapSort::sort, data, trials);
         System.out.println("Tim Sort:");
-        benchmark(TimSort::sort, intData, trials);
+        benchmark(TimSort::sort, data, trials);
         System.out.println();
     }
 

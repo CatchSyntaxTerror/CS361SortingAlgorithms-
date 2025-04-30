@@ -6,7 +6,7 @@ public interface SortingAlgorithm {
      * @param array
      * @return
      */
-    static int[] sort(int[] array) {
+    static double[] sort(double[] array) {
         return array;
     };
 }

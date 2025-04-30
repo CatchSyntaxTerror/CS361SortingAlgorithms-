@@ -18,7 +18,7 @@ import java.util.Arrays;
  *
  */
 public class QuadHeap {
-    private int[] HEAP;
+    private Number[] HEAP;
     private int SIZE;
 
     /**
@@ -26,7 +26,7 @@ public class QuadHeap {
      * @param capacity the size of the array
      */
     public QuadHeap(int capacity) {
-        HEAP = new int[capacity];
+        HEAP = new Number[capacity];
         SIZE = 0;
     }
 
@@ -34,7 +34,7 @@ public class QuadHeap {
      * constructor for filled array
      * @param data the array of data to be heapified
      */
-    public QuadHeap(int[] data) {
+    public QuadHeap(Number[] data) {
         HEAP = data;
         SIZE = data.length;
         heapify();
@@ -71,7 +71,7 @@ public class QuadHeap {
     private void bubbleUp(int index) {
         while(index > 0){
             int parentIndex = getParentIndex(index);
-            if (HEAP[index] > HEAP[parentIndex]) {
+            if (HEAP[index].doubleValue() > HEAP[parentIndex].doubleValue()) {
                 swap(index, parentIndex);
                 index = parentIndex;
             } else {
@@ -88,7 +88,7 @@ public class QuadHeap {
     private void bubbleDown(int index, int last) {
         while (hasChild(index, last)) {
             int largestChildIndex = findLargestChildIndex(index, last);
-                if (largestChildIndex >= 0 && HEAP[index] < HEAP[largestChildIndex]) {
+                if (largestChildIndex >= 0 && HEAP[index].doubleValue() < HEAP[largestChildIndex].doubleValue()) {
                     swap(index, largestChildIndex);
                     index = largestChildIndex;
                 } else {
@@ -120,7 +120,7 @@ public class QuadHeap {
      * Inserts a new value into the heap, maintaining max-heap properties.
      * @param value the value to insert into the heap
      */
-    public void insert(int value) {
+    public void insert(Number value) {
         if (SIZE >= HEAP.length) {
             HEAP = Arrays.copyOf(HEAP, HEAP.length + 1);
         }
@@ -134,12 +134,12 @@ public class QuadHeap {
      * maintaining max-heap properties.
      * @return the maximum value from the heap
      */
-    public int delete() {
+    public Number delete() {
         if(SIZE == 0){
             System.out.println("You cant delete something that doesn't exist");
             return Integer.MAX_VALUE;
         }
-        int maxValue = HEAP[0];
+        Number maxValue = HEAP[0];
         HEAP[0] = HEAP[SIZE - 1];
         SIZE--;
         bubbleDown(0, SIZE);
@@ -162,14 +162,14 @@ public class QuadHeap {
      * @return smallest child
      */
     private int findLargestChildIndex(int parentIndex, int last) {
-        int largestValue = Integer.MIN_VALUE;
+        double largestValue = Double.MIN_VALUE;
         int largestChildIndex = -1;
 
         for (int childNumber = 1; childNumber <= 4; childNumber++) {
             int childIndex = getChildIndex(parentIndex, childNumber);
             if (childIndex < last && childIndex >= 0) {
-                if (HEAP[childIndex] > largestValue) {
-                    largestValue = HEAP[childIndex];
+                if (HEAP[childIndex].doubleValue() > largestValue) {
+                    largestValue = HEAP[childIndex].doubleValue();
                     largestChildIndex = childIndex;
                 }
             }
@@ -192,7 +192,7 @@ public class QuadHeap {
      * @param indexTwo index of another element
      */
     private void swap(int indexOne, int indexTwo) {
-        int temp = HEAP[indexOne];
+        Number temp = HEAP[indexOne];
         HEAP[indexOne] = HEAP[indexTwo];
         HEAP[indexTwo] = temp;
     }
@@ -203,7 +203,7 @@ public class QuadHeap {
      */
     public void printHeap() {
         System.out.println("Heap: ");
-        for(int i: HEAP){
+        for(Number i: HEAP){
             System.out.print(i + ", ");
         }
         System.out.println();
