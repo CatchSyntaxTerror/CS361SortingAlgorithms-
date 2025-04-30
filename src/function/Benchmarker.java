@@ -87,30 +87,24 @@ public class Benchmarker {
             System.out.println("Invalid range");
             return;
         }
-        int range = endExp-startExp+1;
-        int[][] intTimesBySize = new int[range][];
-        int[][] doubleTimesBySize = new int[range][];
-        for (int exp = startExp; exp <= endExp; exp++) {
-            System.gc();
-            // i wonder if memory will be an issue for the larger files
-            String fileName = "ints_" + exp + ".txt";
-            intTimesBySize[exp-startExp] = benchmarkSet(fileName, trials);
-        }
-        for (int exp = startExp; exp <= endExp; exp++) {
-            System.gc();
-            // i wonder if memory will be an issue for the larger files
-            String fileName = "doubles_" + exp + ".txt";
-            doubleTimesBySize[exp-startExp] = benchmarkSet(fileName, trials);
-        }
         System.out.println("Size,3MS Int,3MS Double,RQS Int,RQS Double," +
                 "QTS Int,QTS Double,TS Int,TS Double");
-        for (int i = 0; i<range;i++){
-            System.out.print(startExp+i);
+        int range = endExp-startExp+1;
+        for (int exp = startExp; exp <= endExp; exp++) {
+            System.gc();
+            // i wonder if memory will be an issue for the larger files
+            // update: memory was indeed an issue
+            String fileName = "ints_" + exp + ".txt";
+            int[] intTimes = benchmarkSet(fileName, trials);
+            System.gc();
+            fileName = "doubles_" + exp + ".txt";
+            int[] doubleTimes = benchmarkSet(fileName, trials);
+            System.out.print(exp);
             for (int j = 0; j<4;j++){
-                System.out.printf(",%d,%d", intTimesBySize[i][j], doubleTimesBySize[i][j]);
+                System.out.printf(",%d,%d", intTimes[j], doubleTimes[j]);
             }
-            System.out.println();
         }
+        System.out.println();
     }
     public static void benchmark(int startExp, int endExp, int trials, boolean verbose) {
         VERBOSE = verbose;
