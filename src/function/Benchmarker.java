@@ -3,6 +3,8 @@ package function;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import algorithms.*;
@@ -14,6 +16,7 @@ public class Benchmarker {
      */
     private static final int BENCHMARKS = 50;
     private static final String DATA_PATH = "data/";
+    private static boolean VERBOSE = false;
 
     private static Number[] loadData(String fileName) {
         String filePath = DATA_PATH + fileName;
@@ -45,9 +48,8 @@ public class Benchmarker {
      * @param sortingAlgorithm Algorithm to sort with
      * @param array Template array used for each sort
      */
-    private static void benchmark(Function<Number[], Number[]> sortingAlgorithm,
+    private static int benchmark(Function<Number[], Number[]> sortingAlgorithm,
                                   Number[] array, int trials) {
-        // TODO: benchmark the algorithm according to project instructions
         int[] times = new int[trials];
         for (int i = 0; i < trials; i++ ) {
             long startTime = System.currentTimeMillis();
@@ -59,36 +61,59 @@ public class Benchmarker {
             System.gc();    // attempt to rid the system of the array clone
         }
         int average = Arrays.stream(times).sum() / times.length;
-        System.out.printf("Average sort time (%d trials): %dms\n", trials, average);
+        if (VERBOSE) System.out.printf("Average sort time (%d trials): %dms\n", trials, average);
+        return average;
     }
 
-    private static void benchmarkSet(String fileName, int trials) {
-        System.out.println("Benchmarking: " + fileName);
+    private static int[] benchmarkSet(String fileName, int trials) {
+        if (VERBOSE) System.out.println("Benchmarking: " + fileName);
+        int[] times = new int[4];
         Number[] data = loadData(fileName);
-        if (data.length == 0) return;
-        System.out.println("3 Merge Sort:");
-        benchmark(MergeSort3::sort, data, trials);
-        System.out.println("Random Quick Sort:");
-        benchmark(RandomQuickSort::sort, data, trials);
-        System.out.println("QuadTree Sort:");
-        benchmark(QuadHeapSort::sort, data, trials);
-        System.out.println("Tim Sort:");
-        benchmark(TimSort::sort, data, trials);
-        System.out.println();
+        if (data.length == 0) return null;
+        if (VERBOSE) System.out.println("3 Merge Sort:");
+        times[0] = benchmark(MergeSort3::sort, data, trials);
+        if (VERBOSE) System.out.println("Random Quick Sort:");
+        times[1] = benchmark(RandomQuickSort::sort, data, trials);
+        if (VERBOSE) System.out.println("QuadTree Sort:");
+        times[2] = benchmark(QuadHeapSort::sort, data, trials);
+        if (VERBOSE) System.out.println("Tim Sort:");
+        times[3] = benchmark(TimSort::sort, data, trials);
+        if (VERBOSE) System.out.println();
+        return times;
     }
 
     public static void benchmark(int startExp, int endExp, int trials) {
+        if (endExp<startExp) {
+            System.out.println("Invalid range");
+            return;
+        }
+        int range = endExp-startExp+1;
+        int[][] intTimesBySize = new int[range][];
+        int[][] doubleTimesBySize = new int[range][];
         for (int exp = startExp; exp <= endExp; exp++) {
             System.gc();
             // i wonder if memory will be an issue for the larger files
             String fileName = "ints_" + exp + ".txt";
-            benchmarkSet(fileName, trials);
+            intTimesBySize[exp-startExp] = benchmarkSet(fileName, trials);
         }
         for (int exp = startExp; exp <= endExp; exp++) {
             System.gc();
             // i wonder if memory will be an issue for the larger files
             String fileName = "doubles_" + exp + ".txt";
-            benchmarkSet(fileName, trials);
+            doubleTimesBySize[exp-startExp] = benchmarkSet(fileName, trials);
         }
+        System.out.println("Size,3MS Int,3MS Double,RQS Int,RQS Double," +
+                "QTS Int,QTS Double,TS Int,TS Double");
+        for (int i = 0; i<range;i++){
+            System.out.print(startExp+i);
+            for (int j = 0; j<4;j++){
+                System.out.printf(",%d,%d", intTimesBySize[i][j], doubleTimesBySize[i][j]);
+            }
+            System.out.println();
+        }
+    }
+    public static void benchmark(int startExp, int endExp, int trials, boolean verbose) {
+        VERBOSE = verbose;
+        benchmark(startExp, endExp, trials);
     }
 }

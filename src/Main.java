@@ -19,14 +19,15 @@ public class Main {
                 GenerateData.generate(startExp, endExp);
             }
             case "-benchmark" -> {
-                if (args.length != 4) {
+                if (args.length < 4) {
                     System.out.println("Need range & trials");
                     return;
                 }
                 int startExp = Integer.parseInt(args[1]);
                 int endExp = Integer.parseInt(args[2]);
                 int trials = Integer.parseInt(args[3]);
-                Benchmarker.benchmark(startExp, endExp, trials);
+                boolean verbose = args.length > 4 && args[4].equals("-V");
+                Benchmarker.benchmark(startExp, endExp, trials, verbose);
             }
             default -> System.out.println("Invalid mode");
         }
