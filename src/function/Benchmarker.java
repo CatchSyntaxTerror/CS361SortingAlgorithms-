@@ -39,10 +39,11 @@ public class Benchmarker {
      * @param sortingAlgorithm Algorithm to sort with
      * @param array Template array used for each sort
      */
-    private static void benchmark(Function<int[], int[]> sortingAlgorithm, int[] array) {
+    private static void benchmark(Function<int[], int[]> sortingAlgorithm,
+                                  int[] array, int trials) {
         // TODO: benchmark the algorithm according to project instructions
-        int[] times = new int[BENCHMARKS];
-        for (int i = 0; i < BENCHMARKS; i++ ) {
+        int[] times = new int[trials];
+        for (int i = 0; i < trials; i++ ) {
             long startTime = System.currentTimeMillis();
             // can we ensure this array clone is discarded every time? does
             // it matter for benchmarking?
@@ -52,36 +53,36 @@ public class Benchmarker {
             System.gc();    // attempt to rid the system of the array clone
         }
         int average = Arrays.stream(times).sum() / times.length;
-        System.out.printf("Average sort time: %dms\n", average);
+        System.out.printf("Average sort time (%d trials): %dms\n", trials, average);
     }
 
-    private static void benchmarkSet(String fileName) {
+    private static void benchmarkSet(String fileName, int trials) {
         System.out.println("Benchmarking: " + fileName);
         int[] intData = loadIntData(fileName);
         if (intData.length == 0) return;
         System.out.println("3 Merge Sort:");
-        benchmark(MergeSort3::sort, intData);
+        benchmark(MergeSort3::sort, intData, trials);
         System.out.println("Random Quick Sort:");
-        benchmark(RandomQuickSort::sort, intData);
+        benchmark(RandomQuickSort::sort, intData, trials);
         System.out.println("QuadTree Sort:");
-        benchmark(QuadHeapSort::sort, intData);
+        benchmark(QuadHeapSort::sort, intData, trials);
         System.out.println("Tim Sort:");
-        benchmark(TimSort::sort, intData);
+        benchmark(TimSort::sort, intData, trials);
         System.out.println();
     }
 
-    public static void benchmark(int startExp, int endExp) {
+    public static void benchmark(int startExp, int endExp, int trials) {
         for (int exp = startExp; exp <= endExp; exp++) {
             System.gc();
             // i wonder if memory will be an issue for the larger files
             String fileName = "ints_" + exp + ".txt";
-            benchmarkSet(fileName);
+            benchmarkSet(fileName, trials);
         }
         for (int exp = startExp; exp <= endExp; exp++) {
             System.gc();
             // i wonder if memory will be an issue for the larger files
             String fileName = "doubles_" + exp + ".txt";
-            benchmarkSet(fileName);
+            benchmarkSet(fileName, trials);
         }
     }
 }
