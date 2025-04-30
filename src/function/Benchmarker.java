@@ -11,9 +11,10 @@ public class Benchmarker {
      * time of these all). This gets really slow for big sets.
      */
     private static final int BENCHMARKS = 50;
+    private static final String DATA_PATH = "data/";
 
     private static int[] loadIntData(String fileName) {
-        String filePath = "docs\\data" + fileName;
+        String filePath = DATA_PATH + fileName;
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             return lines.mapToInt(Integer::parseInt).toArray();
         } catch (Exception e) {
@@ -22,7 +23,7 @@ public class Benchmarker {
         return new int[0];
     }
     private static double[] loadDoubleData(String fileName) {
-        String filePath = "docs\\data" + fileName;
+        String filePath = DATA_PATH + fileName;
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             return lines.mapToDouble(Double::parseDouble).toArray();
         } catch (Exception e) {
@@ -52,23 +53,27 @@ public class Benchmarker {
         System.out.printf("Average sort time: %dms\n", average);
     }
 
+    private static void benchmarkSet(String fileName) {
+        System.out.println("Benchmarking: " + fileName);
+        int[] intData = loadIntData(fileName);
+        if (intData.length == 0) return;
+        System.out.println("3 Merge Sort:");
+        benchmark(MergeSort3::sort, intData);
+        System.out.println("Random Quick Sort:");
+        benchmark(RandomQuickSort::sort, intData);
+        System.out.println("QuadTree Sort:");
+        benchmark(QuadHeapSort::sort, intData);
+        System.out.println("Tim Sort:");
+        benchmark(TimSort::sort, intData);
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         for (int exp = 20; exp <= 30; exp++) {
             System.gc();
             // i wonder if memory will be an issue for the larger files
             String fileName = "ints_" + exp + ".txt";
-            System.out.println("Benchmarking: " + fileName);
-            int[] intData = loadIntData(fileName);
-            if (intData.length == 0) break;
-            System.out.println("3 Merge Sort:");
-            benchmark(MergeSort3::sort, intData);
-            System.out.println("Random Quick Sort:");
-            benchmark(RandomQuickSort::sort, intData);
-//            System.out.println("QuadTree Sort:");
-//            benchmark(QuadTree::sort, intData);
-            System.out.println("Tim Sort:");
-            benchmark(TimSort::sort, intData);
-            System.out.println();
+            benchmarkSet(fileName);
         }
     }
 }
