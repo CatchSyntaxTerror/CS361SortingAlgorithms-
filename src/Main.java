@@ -29,6 +29,14 @@ public class Main {
                 boolean verbose = args.length > 4 && args[4].equals("-V");
                 Benchmarker.benchmark(startExp, endExp, trials, verbose);
             }
+            case "-benchsingle" -> {
+                if (args.length != 3) {
+                    System.out.println("Provide algorithm acronym & data file" +
+                            " name as arguments");
+                    return;
+                }
+                Benchmarker.benchmarkSingle(args[1], args[2]);
+            }
             default -> System.out.println("Invalid mode");
         }
     }
