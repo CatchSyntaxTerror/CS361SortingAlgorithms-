@@ -47,7 +47,7 @@ done
 
 ### BEGIN BENCHMARKING
 # Print initial info
-echo "$(java -jar -Xmx28G -Xms28G jars/Benchmarker.jar INFO)"
+java -jar -Xmx28G -Xms28G jars/Benchmarker.jar INFO
 
 # Benchmark each algorithm
 for algorithm in "${algorithms[@]}";
