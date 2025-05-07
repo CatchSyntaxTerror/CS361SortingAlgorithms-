@@ -112,21 +112,25 @@ public class Benchmarker {
         benchmark(startExp, endExp, trials);
     }
 	public static void benchmarkSingle(String algorithmName, String dataFile) {
-		Number[] array = loadData(dataFile);
-		long startTime = System.currentTimeMillis();
-        switch(algorithmName){
-            case "MS3" -> MergeSort3.sort(array);
-            case "RQS" -> RandomQuickSort.sort(array);
-            case "QHS" -> QuadHeapSort.sort(array);
-            case "TS" -> TimSort.sort(array);
-            default -> {
-                System.out.println("Invalid algorithm. Valid options: MS3, " +
-                        "RQS, QHS, TS");
-                return;
+        try {
+            Number[] array = loadData(dataFile);
+            long startTime = System.currentTimeMillis();
+            switch (algorithmName) {
+                case "MS3" -> MergeSort3.sort(array);
+                case "RQS" -> RandomQuickSort.sort(array);
+                case "QHS" -> QuadHeapSort.sort(array);
+                case "TS" -> TimSort.sort(array);
+                default -> {
+                    System.out.println("Invalid algorithm. Valid options: MS3, " +
+                            "RQS, QHS, TS");
+                    return;
+                }
             }
+            long endTime = System.currentTimeMillis();
+            System.out.println((int) (endTime - startTime));
+            System.gc();    // attempt to rid the system of the array clone
+        } catch (Exception e) {
+            System.out.println("ERROR");
         }
-		long endTime = System.currentTimeMillis();
-        System.out.println((int) (endTime - startTime));
-		System.gc();    // attempt to rid the system of the array clone
 	}
 }
