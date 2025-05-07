@@ -46,6 +46,9 @@ do
 done
 
 ### BEGIN BENCHMARKING
+# Print initial info
+"$(java -jar -Xmx28G -Xms28G jars/Benchmarker.jar INFO)"
+
 # Benchmark each algorithm
 for algorithm in "${algorithms[@]}";
 do
@@ -59,9 +62,7 @@ do
     input_file="${data_category}_${x}.txt"
     # Xmx28G specifies maximum memory available to Java
     # Xms specifies initial size
-    command="java -jar -Xmx28G -Xms28G jars/Benchmarker.jar -benchsingle
-    ${algorithm}
-    ${input_file}"
+    command="java -jar -Xmx28G -Xms28G jars/Benchmarker.jar -benchsingle ${algorithm} ${input_file}"
 
     echo "Running benchmark for ${input_file} with ${num_trials} trials..."
 
