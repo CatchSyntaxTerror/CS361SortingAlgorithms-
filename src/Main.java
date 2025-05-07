@@ -6,7 +6,15 @@ public class Main {
         if (args.length < 1) {
             System.out.println("Invalid arguments");
             return;
+        } else if (args[0].equals("INFO")) {
+            System.out.println("BENCHMARKER INFO:");
+            Runtime r = Runtime.getRuntime();
+            System.out.println("Max memory: " + r.maxMemory());
+            System.out.println("Free memory: " + r.freeMemory());
+            System.out.println("Total memory: " + r.totalMemory());
+            return;
         }
+
         String mode = args[0];
         switch(mode) {
             case "-generate" ->{

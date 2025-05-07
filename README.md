@@ -1,6 +1,14 @@
 # cs361-project
 Youssef Amin, Finn Ellis, Nicholas Chacon
 
+## benchmark.sh
+Benchmarks algorithms.
+
+To run:
+```benchmark.sh {ints|doubles} [start] [end]```
+
+Where `start` and `end` refer to the range of data set size.
+
 ## Benchmarker.jar
 Arguments:
 

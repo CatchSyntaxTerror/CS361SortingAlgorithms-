@@ -57,7 +57,11 @@ do
   for (( x=range_start; x<=range_end; x++ ))
   do
     input_file="${data_category}_${x}.txt"
-    command="java -jar jars/Benchmarker.jar -benchsingle ${algorithm} ${input_file}"
+    # Xmx28G specifies maximum memory available to Java
+    # Xms specifies initial size
+    command="java -jar -Xmx28G -Xms28G jars/Benchmarker.jar -benchsingle
+    ${algorithm}
+    ${input_file}"
 
     echo "Running benchmark for ${input_file} with ${num_trials} trials..."
 
