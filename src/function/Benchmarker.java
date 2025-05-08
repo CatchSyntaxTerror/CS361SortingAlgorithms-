@@ -19,118 +19,72 @@ public class Benchmarker {
     private static final String DATA_PATH = "data/";
     private static boolean VERBOSE = false;
 
-    private static Number[] loadData(String fileName) {
-        String filePath = DATA_PATH + fileName;
+    private static int[] loadIntData(int dataSize) {
+        String filePath = DATA_PATH + "ints_" + dataSize + ".txt";
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
-            int i = 0;
-            if (fileName.contains("int")) {
-                int[] ints = lines.mapToInt(Integer::parseInt).toArray();
-                Number[] numbers = new Number[ints.length];
-                for (int x : ints) {
-                    numbers[i++] = x;
-                }
-                return numbers;
-            } else {
-                double[] doubles = lines.mapToDouble(Double::parseDouble).toArray();
-                Number[] numbers = new Number[doubles.length];
-                for (double x : doubles) {
-                    numbers[i++] = x;
-                }
-                return numbers;
-            }
+            return lines.mapToInt(Integer::parseInt).toArray();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Number[0];
+        return new int[0];
     }
-
-    /**
-     * Benchmark an algorithm, calculating average ms to sort
-     * @param sortingAlgorithm Algorithm to sort with
-     * @param array Template array used for each sort
-     */
-    private static int benchmark(Function<Number[], Number[]> sortingAlgorithm,
-                                  Number[] array, int trials) {
-        int[] times = new int[trials];
-        for (int i = 0; i < trials; i++ ) {
-            long startTime = System.currentTimeMillis();
-            // can we ensure this array clone is discarded every time? does
-            // it matter for benchmarking?
-            Number[] sorted = sortingAlgorithm.apply(array.clone());
-            long endTime = System.currentTimeMillis();
-            times[i] = (int) (endTime - startTime);
-            System.gc();    // attempt to rid the system of the array clone
-        }
-        int average = Arrays.stream(times).sum() / times.length;
-        if (VERBOSE) System.out.printf("Average sort time (%d trials): %dms\n", trials, average);
-        return average;
-    }
-
-    private static int[] benchmarkSet(String fileName, int trials) {
-        if (VERBOSE) System.out.println("Benchmarking: " + fileName);
-        int[] times = new int[4];
-        Number[] data = loadData(fileName);
-        if (data.length == 0) return null;
-        if (VERBOSE) System.out.println("3 Merge Sort:");
-        times[0] = benchmark(MergeSort3::sort, data, trials);
-        if (VERBOSE) System.out.println("Random Quick Sort:");
-        times[1] = benchmark(RandomQuickSort::sort, data, trials);
-        if (VERBOSE) System.out.println("QuadTree Sort:");
-        times[2] = benchmark(QuadHeapSort::sort, data, trials);
-        if (VERBOSE) System.out.println("Tim Sort:");
-        times[3] = benchmark(TimSort::sort, data, trials);
-        if (VERBOSE) System.out.println();
-        return times;
-    }
-
-    public static void benchmark(int startExp, int endExp, int trials) {
-        if (endExp<startExp) {
-            System.out.println("Invalid range");
-            return;
-        }
-        System.out.println("Size,3MS Int,3MS Double,RQS Int,RQS Double," +
-                "QTS Int,QTS Double,TS Int,TS Double");
-        int range = endExp-startExp+1;
-        for (int exp = startExp; exp <= endExp; exp++) {
-            System.gc();
-            // i wonder if memory will be an issue for the larger files
-            // update: memory was indeed an issue
-            String fileName = "ints_" + exp + ".txt";
-            int[] intTimes = benchmarkSet(fileName, trials);
-            System.gc();
-            fileName = "doubles_" + exp + ".txt";
-            int[] doubleTimes = benchmarkSet(fileName, trials);
-            System.out.print(exp);
-            for (int j = 0; j<4;j++){
-                System.out.printf(",%d,%d", intTimes[j], doubleTimes[j]);
-            }
-            System.out.println();
-        }
-    }
-    public static void benchmark(int startExp, int endExp, int trials, boolean verbose) {
-        VERBOSE = verbose;
-        benchmark(startExp, endExp, trials);
-    }
-	public static void benchmarkSingle(String algorithmName, String dataFile) {
-        try {
-            Number[] array = loadData(dataFile);
-            long startTime = System.currentTimeMillis();
-            switch (algorithmName) {
-                case "MS3" -> MergeSort3.sort(array);
-                case "RQS" -> RandomQuickSort.sort(array);
-                case "QHS" -> QuadHeapSort.sort(array);
-                case "TS" -> TimSort.sort(array);
-                default -> {
-                    System.out.println("Invalid algorithm. Valid options: MS3, " +
-                            "RQS, QHS, TS");
-                    return;
-                }
-            }
-            long endTime = System.currentTimeMillis();
-            System.out.println((int) (endTime - startTime));
-            System.gc();    // attempt to rid the system of the array clone
+    private static double[] loadDoubleData(int dataSize) {
+        String filePath = DATA_PATH + "doubles_" + dataSize + ".txt";
+        try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
+            return lines.mapToDouble(Double::parseDouble).toArray();
         } catch (Exception e) {
-            System.out.println("ERROR");
+            e.printStackTrace();
         }
+        return new double[0];
+    }
+
+    private static int benchmarkOnArray(int[] array, String algorithmName) {
+        long startTime = System.currentTimeMillis();
+        switch (algorithmName) {
+            case "MS3" -> MergeSort3.sort(array);
+            case "RQS" -> RandomQuickSort.sort(array);
+            case "QHS" -> QuadHeapSort.sort(array);
+            case "TS" -> TimSort.sort(array);
+            default -> {
+                System.out.println("Invalid algorithm. Valid options: MS3, " +
+                        "RQS, QHS, TS");
+                return 0;
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        System.gc();    // attempt to rid the system of the array clone
+        return (int) (endTime - startTime);
+    }
+    private static int benchmarkOnArray(double[] array, String algorithmName) {
+        long startTime = System.currentTimeMillis();
+        switch (algorithmName) {
+            case "MS3" -> MergeSort3.sort(array);
+            case "RQS" -> RandomQuickSort.sort(array);
+            case "QHS" -> QuadHeapSort.sort(array);
+            case "TS" -> TimSort.sort(array);
+            default -> {
+                System.out.println("Invalid algorithm. Valid options: MS3, " +
+                        "RQS, QHS, TS");
+                return 0;
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        System.gc();    // attempt to rid the system of the array clone
+        return (int) (endTime - startTime);
+    }
+
+	public static void benchmarkSingle(String algorithmName, String dataType,
+                                       int dataSize) {
+        int time = switch(dataType) {
+            case "ints" -> benchmarkOnArray(loadIntData(dataSize),
+                    algorithmName);
+            case "doubles" -> benchmarkOnArray(loadDoubleData(dataSize),
+                    algorithmName);
+            default -> {
+                System.out.println("Invalid algorithm.");
+                yield 0;
+            }
+        };
+        System.out.println(time);
 	}
 }

@@ -9,4 +9,7 @@ public interface SortingAlgorithm {
     static double[] sort(double[] array) {
         return array;
     };
+    static int[] sort(int[] array) {
+        return array;
+    };
 }

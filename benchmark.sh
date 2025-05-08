@@ -2,7 +2,7 @@
 # Benchmarker bash script to (hopefully) get around java memory inefficiency
 
 ### INITIAL DEFINITIONS
-num_trials=5 # You can change this number as needed
+num_trials=5 # You can change this int as needed
 out_dir="benchruns/"
 range_start=20
 range_end=30
@@ -22,6 +22,7 @@ esac
 if [ -n "$2" ]; then
   if [[ "$2" =~ ^[0-9]+$ ]]; then
     range_start="$2"
+    range_end="$2"
   else
     echo "Error: Range start must be an int"
     exit 1
@@ -59,19 +60,18 @@ do
 
   for (( x=range_start; x<=range_end; x++ ))
   do
-    input_file="${data_category}_${x}.txt"
     # Xmx28G specifies maximum memory available to Java
     # Xms specifies initial size
-    command="java -jar -Xmx28G -Xms28G jars/Benchmarker.jar -benchsingle ${algorithm} ${input_file}"
+    command="java -jar -Xmx28G -Xms28G jars/Benchmarker.jar -benchsingle ${algorithm} ${data_category} ${x}"
 
-    echo "Running benchmark for ${input_file} with ${num_trials} trials..."
+    echo "Running benchmark for ${data_category}_${x} with ${num_trials} trials..."
 
     output="${data_category}_${x}"
     for ((i=1; i<=num_trials; i++))
     do
       output="${output},$(${command})"
     done
-    csv_line="${input_file},${output}"
+    csv_line="${data_category}_${x},${output}"
     echo "${csv_line}" >> "$output_file"
   done
 

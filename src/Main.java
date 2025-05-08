@@ -26,24 +26,14 @@ public class Main {
                 int endExp = Integer.parseInt(args[2]);
                 GenerateData.generate(startExp, endExp);
             }
-            case "-benchmark" -> {
-                if (args.length < 4) {
-                    System.out.println("Need range & trials");
-                    return;
-                }
-                int startExp = Integer.parseInt(args[1]);
-                int endExp = Integer.parseInt(args[2]);
-                int trials = Integer.parseInt(args[3]);
-                boolean verbose = args.length > 4 && args[4].equals("-V");
-                Benchmarker.benchmark(startExp, endExp, trials, verbose);
-            }
             case "-benchsingle" -> {
-                if (args.length != 3) {
+                if (args.length != 4) {
                     System.out.println("Provide algorithm acronym & data file" +
                             " name as arguments");
                     return;
                 }
-                Benchmarker.benchmarkSingle(args[1], args[2]);
+                Benchmarker.benchmarkSingle(args[1], args[2],
+                        Integer.parseInt(args[3]));
             }
             default -> System.out.println("Invalid mode");
         }
