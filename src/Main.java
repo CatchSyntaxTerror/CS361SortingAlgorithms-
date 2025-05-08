@@ -28,8 +28,8 @@ public class Main {
             }
             case "-benchsingle" -> {
                 if (args.length != 4) {
-                    System.out.println("Provide algorithm acronym & data file" +
-                            " name as arguments");
+                    System.out.println("Provide algorithm acronym, data file" +
+                            " name, and data size as arguments");
                     return;
                 }
                 Benchmarker.benchmarkSingle(args[1], args[2],
