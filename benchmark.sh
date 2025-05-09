@@ -40,7 +40,7 @@ if [ -n "$3" ]; then
 fi
 
 # Prepare CSV header for each file
-header="DataSet"
+header="DataSize"
 for ((i=1; i<=num_trials; i++))
 do
   header="${header},Trial${i}"
@@ -66,13 +66,12 @@ do
 
     echo "Running benchmark for ${data_category}_${x} with ${num_trials} trials..."
 
-    output="${data_category}_${x}"
+    output="${x}"
     for ((i=1; i<=num_trials; i++))
     do
       output="${output},$(${command})"
     done
-    csv_line="${data_category}_${x},${output}"
-    echo "${csv_line}" >> "$output_file"
+    echo "${output}" >> "$output_file"
   done
 
   echo "Saved to ${output_file}"

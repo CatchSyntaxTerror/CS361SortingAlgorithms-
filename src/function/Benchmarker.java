@@ -15,9 +15,7 @@ public class Benchmarker {
      * How many times to run the algorithm for each dataset (averages the run
      * time of these all). This gets really slow for big sets.
      */
-    private static final int BENCHMARKS = 50;
     private static final String DATA_PATH = "data/";
-    private static boolean VERBOSE = false;
 
     private static int[] loadIntData(int dataSize) {
         String filePath = DATA_PATH + "ints_" + dataSize + ".txt";
@@ -38,7 +36,7 @@ public class Benchmarker {
         return new double[0];
     }
 
-    private static int benchmarkOnArray(int[] array, String algorithmName) {
+    private static long benchmarkOnArray(int[] array, String algorithmName) {
         long startTime = System.currentTimeMillis();
         switch (algorithmName) {
             case "MS3" -> MergeSort3.sort(array);
@@ -53,9 +51,9 @@ public class Benchmarker {
         }
         long endTime = System.currentTimeMillis();
         System.gc();    // attempt to rid the system of the array clone
-        return (int) (endTime - startTime);
+        return (endTime - startTime);
     }
-    private static int benchmarkOnArray(double[] array, String algorithmName) {
+    private static long benchmarkOnArray(double[] array, String algorithmName) {
         long startTime = System.currentTimeMillis();
         switch (algorithmName) {
             case "MS3" -> MergeSort3.sort(array);
@@ -69,13 +67,12 @@ public class Benchmarker {
             }
         }
         long endTime = System.currentTimeMillis();
-        System.gc();    // attempt to rid the system of the array clone
-        return (int) (endTime - startTime);
+        return (endTime - startTime);
     }
 
 	public static void benchmarkSingle(String algorithmName, String dataType,
                                        int dataSize) {
-        int time = switch(dataType) {
+        long time = switch(dataType) {
             case "ints" -> benchmarkOnArray(loadIntData(dataSize),
                     algorithmName);
             case "doubles" -> benchmarkOnArray(loadDoubleData(dataSize),
@@ -86,5 +83,6 @@ public class Benchmarker {
             }
         };
         System.out.println(time);
+        System.gc();
 	}
 }
