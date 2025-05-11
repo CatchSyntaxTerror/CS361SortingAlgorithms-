@@ -15,7 +15,7 @@ public class Benchmarker {
      * How many times to run the algorithm for each dataset (averages the run
      * time of these all). This gets really slow for big sets.
      */
-    private static final String DATA_PATH = "data/";
+    private static final String DATA_PATH = "/data";
 
     private static int[] loadIntData(int dataSize) {
         String filePath = DATA_PATH + "ints_" + dataSize + ".txt";
@@ -34,6 +34,38 @@ public class Benchmarker {
             e.printStackTrace();
         }
         return new double[0];
+    }
+
+    private static Student[] loadStudentData(int dataSize) {
+        String filePath = DATA_PATH + "students_" + dataSize + ".txt";
+        try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
+            return lines
+                    .map(line -> {
+                        String[] parts = line.split(",");
+                        double gpa = Double.parseDouble(parts[0]);
+                        String lastName = parts[1];
+                        int id = Integer.parseInt(parts[2]);
+                        return new Student(gpa, lastName, id);
+                    })
+                    .toArray(Student[]::new);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Student[0];
+    }
+
+    private static long benchmarkOnArray(Student[] array, String algorithmName) {
+        long startTime = System.currentTimeMillis();
+        switch (algorithmName) {
+            case "RQS" -> RandomQuickSort.sort(array);
+            default -> {
+                System.out.println("Invalid student algorithm. Valid: RQS");
+                return 0;
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        System.gc();
+        return (endTime - startTime);
     }
 
     private static long benchmarkOnArray(int[] array, String algorithmName) {
@@ -76,6 +108,8 @@ public class Benchmarker {
             case "ints" -> benchmarkOnArray(loadIntData(dataSize),
                     algorithmName);
             case "doubles" -> benchmarkOnArray(loadDoubleData(dataSize),
+                    algorithmName);
+            case "students" -> benchmarkOnArray(loadStudentData(dataSize),
                     algorithmName);
             default -> {
                 System.out.println("Invalid algorithm.");
