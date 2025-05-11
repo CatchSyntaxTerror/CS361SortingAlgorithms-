@@ -8,7 +8,6 @@ import java.util.Random;
  * generator.
  * Author: Nickolas Chacon
  */
-//TODO: copy whole class and make double. in main run int or double w/ given data set(getfirst is int?)
 public class RandomQuickSort implements SortingAlgorithm {
 
     private static Random rand = new Random();
@@ -140,15 +139,96 @@ public class RandomQuickSort implements SortingAlgorithm {
 
 
     /**
+     * Students sort
+     * @param a
+     * @param p
+     * @param r
+     * @return
+     */
+    private static int partition(Student[] a, int p, int r) {
+        Student pivot = a[r];
+        int i = p - 1;
+
+        for (int j = p; j < r; j++) {
+            if (compare(a[j], pivot) <= 0) {
+                i++;
+                Student temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+
+        Student temp = a[i + 1];
+        a[i + 1] = a[r];
+        a[r] = temp;
+
+        return i + 1;
+    }
+
+    private static int randomizedPartition(Student[] a, int p, int r) {
+        int randomIndex = p + rand.nextInt(r - p + 1);
+        Student temp = a[randomIndex];
+        a[randomIndex] = a[r];
+        a[r] = temp;
+
+        return partition(a, p, r);
+    }
+
+    private static void randQuickSort(Student[] a, int p, int r) {
+        if (p < r) {
+            int q = randomizedPartition(a, p, r);
+            randQuickSort(a, p, q - 1);
+            randQuickSort(a, q + 1, r);
+        }
+    }
+
+    //sort descending by gpa, ascending by lastName
+    private static int compare(Student s1, Student s2) {
+        if (Double.compare(s2.gpa, s1.gpa) != 0)
+            return Double.compare(s2.gpa, s1.gpa);
+        return s1.lastName.compareTo(s2.lastName);
+    }
+
+    public static Student[] sort(Student[] arr) {
+        randQuickSort(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+
+    /**
      * Testing
      * @param args
      */
     public static void main(String args[]) {
-        int[] a = {10, 7, 8, 9, 1, 5};
-        int len = a.length;
-        sort(a);
+        Student[] students = {
+                new Student(3.5, "jon", 1),
+                new Student(3.9, "bob", 2),
+                new Student(3.5, "rob", 3),
+                new Student(4.0, "mack", 4),
+                new Student(3.5, "finn", 5)
+        };
 
-        for (int i = 0; i < len; ++i)
-            System.out.print(a[i] + " ");
+        sort(students);
+
+        for (Student s : students)
+            System.out.println(s);
+    }
+
+}
+
+
+class Student {
+    double gpa;
+    String lastName;
+    int id;
+
+    public Student(double gpa, String lastName, int id) {
+        this.gpa = gpa;
+        this.lastName = lastName;
+        this.id = id;
+    }
+
+    public String toString() {
+        return "[" + gpa + ", " + lastName + ", ID: " + id + "]";
     }
 }
