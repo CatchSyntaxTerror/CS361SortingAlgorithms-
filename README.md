@@ -1,6 +1,11 @@
 # cs361-project
 Youssef Amin, Finn Ellis, Nicholas Chacon
 
+## Example Using the Benchmarker
+1. Make a "Data" directory in your working directory
+2. Generate data files using `java -jar Benchmarker.jar -generate 20 30` (will generate in the Data folder)
+3. Run `benchmark.sh ints 20` to benchmark on the 2^20 size int dataset. Provide an end range to benchmark on more.
+
 ## benchmark.sh
 Benchmarks algorithms.
 
